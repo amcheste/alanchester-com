@@ -18,15 +18,26 @@ npm install
 npm run dev
 ```
 
-Dev server runs at `http://localhost:4321`.
+Then open [http://localhost:4321](http://localhost:4321). Hot reload is on,
+so saves under `src/` update the browser.
 
-Other commands:
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Dev server with hot reload. Best for editing copy and components. |
+| `npm run build` | Production build into `./dist`. |
+| `npm run preview` | Serves the production build locally (no hot reload). Closer to what Netlify actually ships. |
+| `npx astro check` | Type-checks all `.astro` files and the content collection schemas. |
 
-```bash
-npm run build     # static build → ./dist
-npm run preview   # serve the built site locally
-npm run astro -- check   # type-check
-```
+### Testing the theme toggle
+
+Click the sun/moon icon in the nav. The choice persists in `localStorage`
+under the key `ac-theme`. To reset to the system default, open DevTools →
+Application → Local Storage and delete that key.
+
+To preview light mode while your OS is in dark mode (or vice versa),
+open DevTools → Rendering → Emulate CSS media feature `prefers-color-scheme`.
+This is useful because the home hero is always dark by design, regardless
+of theme.
 
 ---
 
