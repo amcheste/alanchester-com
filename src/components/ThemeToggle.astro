@@ -6,7 +6,7 @@ const { class: className } = Astro.props;
 ---
 
 <button
-  id="theme-toggle"
+  data-theme-toggle
   type="button"
   aria-label="Toggle color theme"
   class:list={[
@@ -31,15 +31,17 @@ const { class: className } = Astro.props;
   </svg>
 </button>
 
-<script is:inline>
-  (function () {
-    const btn = document.getElementById('theme-toggle');
-    if (!btn) return;
+<script>
+  // Hoisted by Astro and bundled once per page, even if <ThemeToggle />
+  // appears multiple times (desktop nav + mobile bar). Selects all
+  // toggle buttons by data attribute so every instance is wired up.
+  const toggles = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
+  toggles.forEach((btn) => {
     btn.addEventListener('click', () => {
       const root = document.documentElement;
       const next = root.classList.contains('dark') ? 'light' : 'dark';
       root.classList.toggle('dark', next === 'dark');
       try { localStorage.setItem('ac-theme', next); } catch (_) {}
     });
-  })();
+  });
 </script>
