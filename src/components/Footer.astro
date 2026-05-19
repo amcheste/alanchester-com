@@ -1,0 +1,68 @@
+---
+import Monogram from './Monogram.astro';
+import Wordmark from './Wordmark.astro';
+import Equation from './Equation.astro';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+const navLinks = [
+  { href: '/writing', label: 'Writing' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/about', label: 'About' },
+];
+
+const contactLinks = [
+  { href: 'mailto:amcheste@gmail.com', label: 'amcheste@gmail.com' },
+  { href: 'https://www.linkedin.com/in/alan-chester-8757b98b/', label: 'linkedin.com/in/alan-chester-8757b98b' },
+  { href: 'https://github.com/amcheste', label: 'github.com/amcheste' },
+  { href: 'https://x.com/amcheste', label: 'x: @amcheste' },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer
+  class:list={[
+    'mt-24 border-t border-mist bg-paper text-ink dark:border-graphite dark:bg-ink dark:text-paper',
+    className,
+  ]}
+>
+  <div class="mx-auto grid max-w-projects gap-12 px-6 py-14 md:grid-cols-3">
+    <div class="flex flex-col gap-3">
+      <Monogram size="md" />
+      <Wordmark size="sm" />
+      <Equation size="sm" class="mt-1" />
+    </div>
+
+    <nav class="flex flex-col gap-3" aria-label="Footer navigation">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class="font-mono text-sm text-graphite no-underline hover:text-accent dark:text-mist dark:hover:text-accent"
+        >{label}</a>
+      ))}
+    </nav>
+
+    <ul class="flex flex-col gap-3">
+      {contactLinks.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class="font-mono text-sm text-muted no-underline hover:text-accent"
+            target={href.startsWith('http') ? '_blank' : undefined}
+            rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          >{label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="hairline">
+    <p class="mx-auto max-w-projects px-6 py-5 text-center font-mono text-[11px] text-muted">
+      ∀ ε &gt; 0, ∃ δ &gt; 0 · alanchester.com · © {year} Alan Chester
+    </p>
+  </div>
+</footer>

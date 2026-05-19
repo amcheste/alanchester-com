@@ -1,0 +1,96 @@
+---
+import Page from '../layouts/Page.astro';
+import Monogram from '../components/Monogram.astro';
+import Wordmark from '../components/Wordmark.astro';
+import Equation from '../components/Equation.astro';
+---
+
+<Page
+  title="About"
+  description="Alan Chester · 15+ years across kernel engineering, security, cloud, and AI product strategy. The second major technology transition."
+>
+  <article class="mx-auto max-w-prose px-6 pt-16 pb-24">
+    <header class="flex flex-col items-start gap-4">
+      <Monogram size="lg" />
+      <Wordmark as="h1" size="lg" />
+      <Equation size="md" />
+    </header>
+
+    <section class="mt-12 space-y-5 text-lg leading-[1.7] text-graphite dark:text-mist">
+      <p>
+        Fifteen years spanning kernel engineering, security practice, cloud product
+        leadership, and AI product strategy. I&rsquo;ve built cloud platforms from
+        scratch: secured funding, bootstrapped teams, shipped product, and drove
+        enterprise adoption.
+      </p>
+      <p>
+        This is the second major technology transition I&rsquo;ve navigated. The
+        first was cloud. Now it&rsquo;s AI, and the pattern is familiar.
+      </p>
+      <p>
+        Computer Science taught me to build systems that run in production.
+        Applied Mathematics taught me how AI models actually work underneath.
+        Security taught me to see risk others miss. An MBA in progress is the
+        habit of proving ROI rather than assuming it.
+      </p>
+      <p>
+        The philosophy is borrowed from real analysis. <span class="equation">ε</span> is whatever the
+        world demands. Uptime, accuracy, security, ROI. <span class="equation">δ</span> is the move that
+        meets it. The data says when to pivot.
+      </p>
+    </section>
+
+    <section class="mt-16 border-t border-mist pt-10 dark:border-graphite">
+      <p class="eyebrow">Currently</p>
+      <ul class="mt-5 space-y-3 text-graphite dark:text-mist">
+        <li class="flex items-start gap-3">
+          <span class="mt-2 inline-block h-1 w-3 shrink-0 bg-accent" aria-hidden="true"></span>
+          <span>Building AI systems and researching reinforcement learning.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-2 inline-block h-1 w-3 shrink-0 bg-accent" aria-hidden="true"></span>
+          <span>MBA candidate, NC State Jenkins School of Business.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-2 inline-block h-1 w-3 shrink-0 bg-accent" aria-hidden="true"></span>
+          <span>Writing about the incentive structures that shape technology decisions.</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-16 border-t border-mist pt-10 dark:border-graphite">
+      <p class="eyebrow">Connect</p>
+      <ul class="mt-5 space-y-2 font-mono text-sm">
+        <li>
+          <a href="mailto:amcheste@gmail.com" class="text-muted no-underline hover:text-accent">
+            amcheste@gmail.com
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.linkedin.com/in/alan-chester-8757b98b/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-muted no-underline hover:text-accent"
+          >linkedin.com/in/alan-chester-8757b98b</a>
+        </li>
+        <li>
+          <a
+            href="https://github.com/amcheste"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-muted no-underline hover:text-accent"
+          >github.com/amcheste</a>
+        </li>
+        <li>
+          <a
+            href="https://x.com/amcheste"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-muted no-underline hover:text-accent"
+          >x: @amcheste</a>
+        </li>
+      </ul>
+    </section>
+  </article>
+</Page>

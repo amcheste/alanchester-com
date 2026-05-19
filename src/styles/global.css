@@ -1,0 +1,169 @@
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/700.css';
+@import '@fontsource/ibm-plex-sans/greek-400.css';
+@import '@fontsource/ibm-plex-sans/greek-700.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/ibm-plex-mono/700.css';
+@import '@fontsource/ibm-plex-mono/latin-ext-400.css';
+@import '@fontsource/ibm-plex-mono/latin-ext-700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  :root.dark {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans leading-body antialiased;
+  }
+
+  html.dark body {
+    @apply bg-ink text-paper;
+  }
+
+  ::selection {
+    @apply bg-accent text-paper;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-paper;
+  }
+
+  html.dark *:focus-visible {
+    @apply ring-offset-ink;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-bold tracking-tight;
+  }
+
+  a {
+    @apply text-accent underline-offset-4 decoration-1 transition-colors;
+  }
+
+  a:hover {
+    @apply decoration-2;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono text-eyebrow uppercase tracking-eyebrow text-muted;
+  }
+
+  .prose-body {
+    @apply font-sans text-[16px] leading-body text-graphite;
+  }
+
+  html.dark .prose-body {
+    @apply text-mist;
+  }
+
+  .equation {
+    @apply font-mono text-accent;
+  }
+
+  .hairline {
+    @apply border-t border-mist;
+  }
+
+  html.dark .hairline {
+    @apply border-graphite;
+  }
+
+  .prose-post {
+    @apply font-sans text-[17px] leading-[1.7] text-graphite;
+  }
+
+  html.dark .prose-post {
+    @apply text-mist;
+  }
+
+  .prose-post h2 {
+    @apply mt-12 mb-4 text-2xl font-bold text-ink;
+  }
+
+  html.dark .prose-post h2 {
+    @apply text-paper;
+  }
+
+  .prose-post h3 {
+    @apply mt-8 mb-3 text-xl font-bold text-ink;
+  }
+
+  html.dark .prose-post h3 {
+    @apply text-paper;
+  }
+
+  .prose-post p {
+    @apply my-5;
+  }
+
+  .prose-post ul,
+  .prose-post ol {
+    @apply my-5 ml-6;
+  }
+
+  .prose-post ul {
+    @apply list-disc;
+  }
+
+  .prose-post ol {
+    @apply list-decimal;
+  }
+
+  .prose-post li {
+    @apply my-2;
+  }
+
+  .prose-post blockquote {
+    @apply my-6 border-l-4 border-accent pl-5 italic text-muted;
+  }
+
+  .prose-post code {
+    @apply font-mono text-[14px] bg-mist px-1.5 py-0.5 rounded text-ink;
+  }
+
+  html.dark .prose-post code {
+    @apply bg-graphite text-paper;
+  }
+
+  .prose-post pre {
+    @apply my-6 p-4 bg-ink text-paper rounded-md overflow-x-auto;
+  }
+
+  html.dark .prose-post pre {
+    @apply bg-graphite;
+  }
+
+  .prose-post pre code {
+    @apply bg-transparent p-0 text-paper;
+  }
+
+  .prose-post a {
+    @apply text-accent underline underline-offset-4;
+  }
+
+  .prose-post hr {
+    @apply my-10 border-mist;
+  }
+
+  html.dark .prose-post hr {
+    @apply border-graphite;
+  }
+}

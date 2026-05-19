@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import PostCard from '../../components/PostCard.astro';
+import { readingTime } from '../../utils/readingTime';
+
+const filter = (Astro.url.searchParams.get('type') ?? 'all').toLowerCase();
+const validFilters = ['all', 'essays', 'papers'] as const;
+const active = (validFilters as readonly string[]).includes(filter) ? filter : 'all';
+
+const [blog, papers] = await Promise.all([
+  getCollection('blog', ({ data }) => !data.draft),
+  getCollection('papers', ({ data }) => !data.draft),
+]);
+
+const merged = [...blog, ...papers].sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const filtered = merged.filter((entry) => {
+  if (active === 'essays') return entry.data.type === 'essay';
+  if (active === 'papers') return entry.data.type === 'paper';
+  return true;
+});
+
+const filterLinks = [
+  { value: 'all', label: 'All' },
+  { value: 'essays', label: 'Essays' },
+  { value: 'papers', label: 'Papers' },
+] as const;
+---
+
+<Page
+  title="Writing"
+  description="Long-form thinking on AI, systems, product, and the math underneath."
+>
+  <section class="mx-auto max-w-writing px-6 pt-16 pb-24">
+    <header>
+      <p class="eyebrow">Writing</p>
+      <h1 class="mt-3 text-4xl font-bold text-ink md:text-5xl dark:text-paper">
+        Essays &amp; Papers
+      </h1>
+      <p class="mt-4 max-w-prose text-lg text-graphite dark:text-mist">
+        Long-form thinking on AI, systems, product, and the math underneath.
+      </p>
+    </header>
+
+    <nav class="mt-10 flex gap-6 border-b border-mist pb-4 dark:border-graphite" aria-label="Filter writing">
+      {filterLinks.map(({ value, label }) => (
+        <a
+          href={value === 'all' ? '/writing' : `/writing?type=${value}`}
+          class:list={[
+            'font-mono text-sm no-underline transition-colors',
+            active === value
+              ? 'text-ink underline decoration-accent decoration-2 underline-offset-[6px] dark:text-paper'
+              : 'text-muted hover:text-accent',
+          ]}
+        >{label}</a>
+      ))}
+    </nav>
+
+    <div class="mt-8">
+      {filtered.length === 0 && (
+        <p class="font-mono text-sm text-muted">No posts in this category yet.</p>
+      )}
+      {filtered.map((entry) => (
+        <PostCard
+          href={`/writing/${entry.slug}`}
+          title={entry.data.title}
+          description={entry.data.description}
+          date={entry.data.date}
+          type={entry.data.type}
+          readingTime={readingTime(entry.body)}
+        />
+      ))}
+    </div>
+  </section>
+</Page>

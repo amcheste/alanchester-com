@@ -1,56 +1,128 @@
-<!--
-Project banner. Spec:
-  https://github.com/amcheste/alanchester-brand/blob/main/docs/banner-spec.md
+# alanchester.com
 
-To enable: generate a banner via Claude Design (paste the
-design-session-brief plus the banner-spec request prompt), land
-the generated SVG and PNG exports in `assets/`, then uncomment the
-<img> block below by removing this whole HTML comment block and
-restoring the <p> tag.
+Personal site for Alan Chester. Static site built with [Astro 4.x](https://astro.build),
+[Tailwind CSS](https://tailwindcss.com), and deployed to [Netlify](https://netlify.com).
 
-If this repo doesn't need a banner, delete this placeholder
-entirely.
-
-<p align="center">
-  <img src="assets/banner.svg" alt="<project> banner" width="100%">
-</p>
--->
-
-<div align="center">
-
-# repo-name
-
-**One-line description of what this project does.**
-
-[![Validate](https://github.com/amcheste/repo-name/actions/workflows/validate.yml/badge.svg)](https://github.com/amcheste/repo-name/actions/workflows/validate.yml)
-[![Version](https://img.shields.io/github/v/tag/amcheste/repo-name?label=version&sort=semver&color=0B0B0C)](https://github.com/amcheste/repo-name/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-1F4D3A.svg)](LICENSE)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/amcheste/repo-name/badge)](https://scorecard.dev/viewer/?uri=github.com/amcheste/repo-name)
-
-</div>
+```
+∀ ε > 0, ∃ δ > 0
+```
 
 ---
 
-<!--
-This scaffold is brand-aligned with `@amcheste/brand`
-(https://github.com/amcheste/alanchester-brand). Badge colors,
-voice, and the accent rule already match the brand by default:
+## Local development
 
-  - Hunter Green `#1F4D3A` for the license badge
-  - Ink `#0B0B0C` for the version badge
-  - Hunter green is reserved for data, pivots, and the δ; don't
-    decorate with it
-  - No em dashes in prose, calibrated hedges, lowercase eyebrows,
-    numerical specificity
+Requires Node 20+ and npm.
 
-When filling in this README and other docs, follow the brand voice
-rules:
-https://github.com/amcheste/alanchester-brand/blob/main/docs/voice.md
+```bash
+npm install
+npm run dev
+```
 
-For deeper integration (palette adoption, mark embedding, full
-theming sweep), paste the theming prompt into a Claude Code session
-here:
-https://github.com/amcheste/alanchester-brand/blob/main/docs/theming-prompt.md
--->
+Dev server runs at `http://localhost:4321`.
 
-<!-- TODO: fill in the rest of the README -->
+Other commands:
+
+```bash
+npm run build     # static build → ./dist
+npm run preview   # serve the built site locally
+npm run astro -- check   # type-check
+```
+
+---
+
+## Project structure
+
+```
+src/
+  components/      reusable Astro components (brand, nav, cards, theme)
+  content/
+    blog/          essays (.md / .mdx)
+    papers/        white papers (.md / .mdx)
+    config.ts      collection schemas
+  data/            non-content data (e.g. projects list)
+  layouts/         Base, Page, Post wrappers
+  pages/           routes (file-based)
+  styles/global.css
+  utils/           helpers (reading time, etc.)
+public/            static assets served from the site root
+```
+
+---
+
+## Brand tokens
+
+Defined in `tailwind.config.mjs`. Use Tailwind utility classes referencing
+the named colors. Do not hand-roll hex values in components.
+
+| Token    | Hex       | Role |
+| -------- | --------- | ---- |
+| ink      | `#0B0B0C` | primary text, dark backgrounds |
+| graphite | `#2B2B2E` | body copy |
+| muted    | `#8A8A8E` | captions, labels, metadata |
+| mist     | `#E6E4DE` | dividers, borders |
+| paper    | `#F6F4EE` | light mode background |
+| accent   | `#1F6B3A` | hunter green. CTA, links, highlights |
+| alt      | `#B45A3C` | rust. Sparingly. Errors or one accent per page max |
+
+Typography is IBM Plex Sans (body, headings) and IBM Plex Mono
+(eyebrows, labels, code, the equation). Both are bundled locally via
+`@fontsource`. No Google Fonts call.
+
+---
+
+## Adding a new post
+
+1. Pick the right collection:
+   - **Essay** → `src/content/blog/`
+   - **White paper** → `src/content/papers/`
+2. Create a new `.md` (or `.mdx`) file. The filename becomes the URL slug:
+   `src/content/blog/my-post.md` → `/writing/my-post`.
+3. Add the frontmatter:
+
+   ```yaml
+   ---
+   title: "Your Title"
+   subtitle: "One-line subtitle shown under the title."
+   date: 2026-05-18
+   type: essay   # or 'paper' (must match the collection)
+   description: "One sentence shown on cards and in meta tags."
+   draft: false  # true = excluded from build
+   ---
+   ```
+
+4. Write the body in Markdown. Posts render with sensible defaults for
+   headings, lists, blockquotes, inline code, and code blocks. No frontmatter
+   tweaking needed for the listing pages. They pick up new entries
+   automatically.
+
+5. Run `npm run dev` and visit `/writing` to confirm the new card appears.
+
+---
+
+## Theme toggle
+
+The theme is persisted in `localStorage` under the key `ac-theme`. A small
+inline script in `<head>` applies the saved theme before paint so there&rsquo;s
+no flash. Default behavior: respect `prefers-color-scheme`, fall back to light.
+
+---
+
+## Deployment
+
+`netlify.toml` is configured. First push to a repo connected to Netlify
+should deploy with zero further configuration.
+
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Node version: 20
+
+---
+
+## Conventions
+
+- TypeScript everywhere (`.astro` files use typed frontmatter).
+- Tailwind classes only. No inline `style` attributes.
+- Inline SVG for icons. No icon libraries.
+- No animation libraries. CSS transitions only.
+- No UI component libraries (Shadcn, DaisyUI, etc.).
+- Voice: compressed, precise. No em dashes in copy. No superlatives.

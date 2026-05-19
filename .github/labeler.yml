@@ -1,4 +1,3 @@
-# Add more entries to match your project's file structure.
 # Labels here are content-based (what changed); release-drafter autolabeler
 # handles type-based labels (feature/fix/chore) from commit titles.
 
@@ -8,4 +7,28 @@ ci:
 
 docs:
   - changed-files:
-    - any-glob-to-any-file: ['*.md', 'docs/**']
+    - any-glob-to-any-file: ['*.md', 'docs/**', 'src/content/**/*.md', 'src/content/**/*.mdx']
+
+content:
+  - changed-files:
+    - any-glob-to-any-file: ['src/content/**']
+
+design:
+  - changed-files:
+    - any-glob-to-any-file: ['tailwind.config.mjs', 'src/styles/**', 'src/components/Wordmark.astro', 'src/components/Monogram.astro', 'src/components/Equation.astro']
+
+components:
+  - changed-files:
+    - any-glob-to-any-file: ['src/components/**']
+
+pages:
+  - changed-files:
+    - any-glob-to-any-file: ['src/pages/**', 'src/layouts/**']
+
+deps:
+  - changed-files:
+    - any-glob-to-any-file: ['package.json', 'package-lock.json']
+
+deploy:
+  - changed-files:
+    - any-glob-to-any-file: ['netlify.toml', 'astro.config.mjs']

@@ -1,0 +1,109 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Wordmark from '../components/Wordmark.astro';
+import Equation from '../components/Equation.astro';
+import PostCard from '../components/PostCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+import { readingTime } from '../utils/readingTime';
+
+const [blog, papers] = await Promise.all([
+  getCollection('blog', ({ data }) => !data.draft),
+  getCollection('papers', ({ data }) => !data.draft),
+]);
+
+const allWriting = [...blog, ...papers]
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
+---
+
+<Base
+  title={undefined}
+  description="Alan Chester · engineer, researcher, lifelong learner. Writing on AI, systems, product, and the math underneath."
+>
+  <Nav />
+  <main class="flex-1">
+    <section class="relative w-full bg-ink text-paper">
+      <div class="absolute inset-y-0 left-0 w-1 bg-accent" aria-hidden="true"></div>
+      <div class="mx-auto max-w-prose px-8 py-24 md:py-32">
+        <Wordmark as="h1" size="xl" class="!text-paper" />
+        <div class="mt-6">
+          <Equation size="lg" />
+        </div>
+        <p class="mt-8 font-mono text-sm text-muted">
+          engineer. researcher. lifelong learner.
+        </p>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-prose px-6 py-20">
+      <p class="eyebrow">About</p>
+      <div class="mt-4 space-y-4 text-lg text-graphite dark:text-mist">
+        <p>
+          I lead product at Oracle (OCI). Over fifteen years: engineer, security
+          practitioner, PM, cloud builder. This is the second major technology
+          transition I&rsquo;ve navigated.
+        </p>
+        <p>
+          The first was cloud. Now it&rsquo;s AI, and the pattern is familiar.
+        </p>
+      </div>
+      <a
+        href="/about"
+        class="mt-6 inline-block font-mono text-sm text-accent no-underline hover:underline"
+      >More about me →</a>
+    </section>
+
+    <section class="mx-auto max-w-prose px-6 py-12">
+      <div class="flex items-baseline justify-between">
+        <p class="eyebrow">Writing</p>
+        <a href="/writing" class="font-mono text-xs text-accent no-underline hover:underline">
+          All writing →
+        </a>
+      </div>
+      <div class="mt-6">
+        {allWriting.length === 0 && (
+          <p class="font-mono text-sm text-muted">No posts yet.</p>
+        )}
+        {allWriting.map((entry) => (
+          <PostCard
+            href={`/writing/${entry.slug}`}
+            title={entry.data.title}
+            description={entry.data.description}
+            date={entry.data.date}
+            type={entry.data.type}
+            readingTime={readingTime(entry.body)}
+          />
+        ))}
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-projects px-6 py-12">
+      <div class="mx-auto max-w-prose">
+        <div class="flex items-baseline justify-between">
+          <p class="eyebrow">Projects</p>
+          <a href="/projects" class="font-mono text-xs text-accent no-underline hover:underline">
+            All projects →
+          </a>
+        </div>
+      </div>
+      <div class="mx-auto mt-6 grid gap-6 md:grid-cols-3">
+        {featuredProjects.map((p) => (
+          <ProjectCard
+            name={p.name}
+            href={p.href}
+            stack={p.stack}
+            status={p.status}
+            description={p.description}
+          />
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>

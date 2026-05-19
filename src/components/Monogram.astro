@@ -1,0 +1,25 @@
+---
+interface Props {
+  class?: string;
+  size?: 'sm' | 'md' | 'lg';
+  ariaLabel?: string;
+}
+
+const { class: className, size = 'md', ariaLabel = 'AεC monogram' } = Astro.props;
+
+const sizes: Record<NonNullable<Props['size']>, string> = {
+  sm: 'text-base',
+  md: 'text-2xl',
+  lg: 'text-5xl md:text-6xl',
+};
+---
+
+<span
+  class:list={[
+    'inline-flex items-center font-mono font-bold leading-none text-ink dark:text-paper',
+    sizes[size],
+    className,
+  ]}
+  aria-label={ariaLabel}
+  role="img"
+><span>A</span><span class="font-sans text-accent" style="font-size:0.7em;line-height:1;margin:0 0.05em;">ε</span><span>C</span></span>
