@@ -158,30 +158,37 @@ Typography is IBM Plex Sans (body, headings) and IBM Plex Mono
 
 ## Adding a new post
 
-1. Pick the right collection:
-   - **Essay** → `src/content/blog/`
-   - **White paper** → `src/content/papers/`
-2. Create a new `.md` (or `.mdx`) file. The filename becomes the URL slug:
-   `src/content/blog/my-post.md` → `/writing/my-post`.
-3. Add the frontmatter:
+There are two kinds of writing. The difference is editorial, and the
+**folder is what sets it** (no `type` field to keep in sync):
+
+| Kind | Folder | Tag | What it is |
+| --- | --- | --- | --- |
+| Essay | `src/content/blog/` | `ESSAY` | Shorter, informal analysis or opinion. |
+| Paper | `src/content/papers/` | `PAPER` | Longer, formal/structured research (abstract, numbered sections, references). |
+
+Both feed the same `/writing` feed, sorted newest first. The `ESSAY` /
+`PAPER` label is derived from the folder in `src/utils/writing.ts`.
+
+1. Drop a `.md` (or `.mdx`) file in the right folder. The filename becomes
+   the URL slug: `src/content/blog/my-post.md` → `/writing/my-post`.
+2. Add the frontmatter:
 
    ```yaml
    ---
    title: "Your Title"
    subtitle: "One-line subtitle shown under the title."
    date: 2026-05-18
-   type: essay   # or 'paper' (must match the collection)
    description: "One sentence shown on cards and in meta tags."
    draft: false  # true = excluded from build
    ---
    ```
 
-4. Write the body in Markdown. Posts render with sensible defaults for
+3. Write the body in Markdown. Posts render with sensible defaults for
    headings, lists, blockquotes, inline code, and code blocks. No frontmatter
    tweaking needed for the listing pages. They pick up new entries
    automatically.
 
-5. Run `npm run dev` and visit `/writing` to confirm the new card appears.
+4. Run `npm run dev` and visit `/writing` to confirm the new card appears.
 
 ---
 

@@ -1,25 +1,17 @@
 ---
-import { getCollection } from 'astro:content';
 import Page from '../../layouts/Page.astro';
 import PostCard from '../../components/PostCard.astro';
-import { readingTime } from '../../utils/readingTime';
+import { getWriting } from '../../utils/writing';
 
 const filter = (Astro.url.searchParams.get('type') ?? 'all').toLowerCase();
 const validFilters = ['all', 'essays', 'papers'] as const;
 const active = (validFilters as readonly string[]).includes(filter) ? filter : 'all';
 
-const [blog, papers] = await Promise.all([
-  getCollection('blog', ({ data }) => !data.draft),
-  getCollection('papers', ({ data }) => !data.draft),
-]);
+const writing = await getWriting();
 
-const merged = [...blog, ...papers].sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime()
-);
-
-const filtered = merged.filter((entry) => {
-  if (active === 'essays') return entry.data.type === 'essay';
-  if (active === 'papers') return entry.data.type === 'paper';
+const filtered = writing.filter((item) => {
+  if (active === 'essays') return item.type === 'essay';
+  if (active === 'papers') return item.type === 'paper';
   return true;
 });
 
@@ -65,14 +57,14 @@ const filterLinks = [
       {filtered.length === 0 && (
         <p class="font-mono text-sm text-muted">No posts in this category yet.</p>
       )}
-      {filtered.map((entry) => (
+      {filtered.map((item) => (
         <PostCard
-          href={`/writing/${entry.slug}`}
-          title={entry.data.title}
-          description={entry.data.description}
-          date={entry.data.date}
-          type={entry.data.type}
-          readingTime={readingTime(entry.body)}
+          href={`/writing/${item.slug}`}
+          title={item.title}
+          description={item.description}
+          date={item.date}
+          type={item.type}
+          readingTime={item.readingTime}
         />
       ))}
     </div>

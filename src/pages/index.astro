@@ -1,5 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -10,16 +9,9 @@ import ProjectCard from '../components/ProjectCard.astro';
 import QuestionBlock from '../components/QuestionBlock.astro';
 import { projects } from '../data/projects';
 import { researchQuestions } from '../data/questions';
-import { readingTime } from '../utils/readingTime';
+import { getWriting } from '../utils/writing';
 
-const [blog, papers] = await Promise.all([
-  getCollection('blog', ({ data }) => !data.draft),
-  getCollection('papers', ({ data }) => !data.draft),
-]);
-
-const allWriting = [...blog, ...papers]
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+const allWriting = (await getWriting()).slice(0, 3);
 
 const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
 ---
@@ -89,14 +81,14 @@ const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
         {allWriting.length === 0 && (
           <p class="font-mono text-sm text-muted">No posts yet.</p>
         )}
-        {allWriting.map((entry) => (
+        {allWriting.map((item) => (
           <PostCard
-            href={`/writing/${entry.slug}`}
-            title={entry.data.title}
-            description={entry.data.description}
-            date={entry.data.date}
-            type={entry.data.type}
-            readingTime={readingTime(entry.body)}
+            href={`/writing/${item.slug}`}
+            title={item.title}
+            description={item.description}
+            date={item.date}
+            type={item.type}
+            readingTime={item.readingTime}
           />
         ))}
       </div>
@@ -117,6 +109,7 @@ const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
             name={p.name}
             href={p.href}
             stack={p.stack}
+            category={p.category}
             status={p.status}
             description={p.description}
           />

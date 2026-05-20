@@ -2,7 +2,6 @@
 title: "Why AI Is Shockingly Expensive to Run"
 subtitle: "The economics of inference, explained without euphemism."
 date: 2026-05-01
-type: essay
 description: "The economics of inference, explained without euphemism."
 draft: false
 ---

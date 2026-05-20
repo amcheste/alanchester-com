@@ -2,7 +2,6 @@
 title: "Template: White Paper Title"
 subtitle: "One-line subtitle shown under the title and on cards."
 date: 2026-01-01
-type: paper
 description: "One sentence shown on cards and in meta tags."
 draft: true
 ---

@@ -1,8 +1,18 @@
-export type ProjectStatus = 'ACTIVE' | 'EXPERIMENT' | 'TOOLING';
+// Two orthogonal axes, kept as two fields so neither is overloaded:
+//
+//   category — what kind of project it is. Stable classification.
+//   status   — how active / mature it is. Changes over a project's life.
+//
+// A project is exactly one category and exactly one status, e.g. a
+// `research` project that is `active`, or an `application` that is an
+// `experiment`.
+export type ProjectCategory = 'research' | 'tooling' | 'application';
+export type ProjectStatus = 'active' | 'experiment';
 
 export interface Project {
   name: string;
   stack: string[];
+  category: ProjectCategory;
   status: ProjectStatus;
   description: string;
   href: string;
@@ -13,7 +23,8 @@ export const projects: Project[] = [
   {
     name: 'pokemon-red-ai',
     stack: ['Python', 'RL', 'Gymnasium'],
-    status: 'ACTIVE',
+    category: 'research',
+    status: 'active',
     description:
       'Reinforcement learning toolkit for training AI agents to play Pokémon Red. Built on PyBoy, Stable-Baselines3, and Gymnasium. Three observation treatments (pixel, symbolic, hybrid), 833 tests, statistical analysis following Agarwal et al. 2021.',
     href: 'https://github.com/amcheste/pokemon-red-ai',
@@ -22,7 +33,8 @@ export const projects: Project[] = [
   {
     name: 'claude-teams-operator',
     stack: ['Kubernetes', 'Go', 'AI'],
-    status: 'ACTIVE',
+    category: 'research',
+    status: 'active',
     description:
       'Kubernetes operator that runs Claude Code Agent Teams as distributed pods. Explores multi-agent coordination patterns at the infrastructure layer.',
     href: 'https://github.com/amcheste/claude-teams-operator',
@@ -31,7 +43,8 @@ export const projects: Project[] = [
   {
     name: 'ea-agent',
     stack: ['Python', 'AI', 'Obsidian'],
-    status: 'ACTIVE',
+    category: 'application',
+    status: 'active',
     description:
       'AI-powered personal executive assistant built around Obsidian. Automates triage, synthesis, and knowledge management workflows.',
     href: 'https://github.com/amcheste/ea-agent',
@@ -40,7 +53,8 @@ export const projects: Project[] = [
   {
     name: 'paper-skills',
     stack: ['Python', 'AI', 'Research'],
-    status: 'EXPERIMENT',
+    category: 'tooling',
+    status: 'experiment',
     description:
       'Claude Code skills for academic paper triage and Obsidian integration. Reduces time-to-insight on dense technical literature.',
     href: 'https://github.com/amcheste/paper-skills',
@@ -49,7 +63,8 @@ export const projects: Project[] = [
   {
     name: 'golf-coach-agent',
     stack: ['Python', 'Vision LLM'],
-    status: 'EXPERIMENT',
+    category: 'application',
+    status: 'experiment',
     description:
       'AI golf coach using Vision LLMs for swing analysis. A focused experiment in applying multimodal models to physical performance feedback.',
     href: 'https://github.com/amcheste/golf-coach-agent',
@@ -58,7 +73,8 @@ export const projects: Project[] = [
   {
     name: 'mac-dev-setup',
     stack: ['Shell', 'macOS'],
-    status: 'TOOLING',
+    category: 'tooling',
+    status: 'active',
     description:
       'One command to go from zero to fully productive on macOS. Opinionated dotfiles and toolchain setup for engineers who care about their environment.',
     href: 'https://github.com/amcheste/mac-dev-setup',
