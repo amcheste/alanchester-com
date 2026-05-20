@@ -159,11 +159,34 @@
     @apply text-accent underline underline-offset-4;
   }
 
+  /* Markdown `---` renders as an ε section break: a hairline with a
+     centered ε ornament sitting on top, masked by the page background.
+     A small, repeated nod to the brand mark in long-form content. */
   .prose-post hr {
-    @apply my-10 border-mist;
+    @apply relative my-12 h-px border-0 bg-mist;
+    overflow: visible;
+  }
+
+  .prose-post hr::after {
+    content: 'ε';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0 0.75rem;
+    background: theme('colors.paper');
+    color: theme('colors.accent');
+    font-family: theme('fontFamily.sans');
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1;
   }
 
   html.dark .prose-post hr {
-    @apply border-graphite;
+    @apply bg-graphite;
+  }
+
+  html.dark .prose-post hr::after {
+    background: theme('colors.ink');
   }
 }

@@ -50,7 +50,11 @@ const typeLabel = type === 'paper' ? 'PAPER' : 'ESSAY';
       <slot />
     </div>
 
-    <footer class="mt-16 border-t border-mist pt-8 dark:border-graphite">
+    <div class="mt-12 text-center" aria-hidden="true">
+      <span class="font-sans text-2xl font-bold leading-none text-accent">δ</span>
+    </div>
+
+    <footer class="mt-10 border-t border-mist pt-8 dark:border-graphite">
       <div class="flex items-center justify-between font-mono text-xs text-muted">
         <Equation size="sm" />
         <a href="/writing" class="no-underline hover:text-accent">← all writing</a>
