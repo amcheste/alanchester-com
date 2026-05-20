@@ -28,12 +28,30 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Body carries the brand's "notebook" texture: a faint dot grid at
+     24px spacing, like engineering paper. The dots are tinted with
+     the existing mist / graphite tokens so they sit just at the edge
+     of perception. Sections that need a clean surface (project cards,
+     footer) carry their own bg-paper / bg-ink and cover the grid. */
   body {
-    @apply bg-paper text-ink font-sans leading-body antialiased;
+    @apply text-ink font-sans leading-body antialiased;
+    background-color: theme('colors.paper');
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      theme('colors.mist') 1px,
+      transparent 0
+    );
+    background-size: 24px 24px;
   }
 
   html.dark body {
-    @apply bg-ink text-paper;
+    @apply text-paper;
+    background-color: theme('colors.ink');
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      theme('colors.graphite') 1px,
+      transparent 0
+    );
   }
 
   ::selection {
