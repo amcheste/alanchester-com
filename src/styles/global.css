@@ -1,0 +1,210 @@
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/700.css';
+@import '@fontsource/ibm-plex-sans/greek-400.css';
+@import '@fontsource/ibm-plex-sans/greek-700.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/ibm-plex-mono/700.css';
+@import '@fontsource/ibm-plex-mono/latin-ext-400.css';
+@import '@fontsource/ibm-plex-mono/latin-ext-700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  :root.dark {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Body carries the brand's "notebook" texture: a faint dot grid at
+     24px spacing, like engineering paper. The dots are tinted with
+     the existing mist / graphite tokens so they sit just at the edge
+     of perception. Sections that need a clean surface (project cards,
+     footer) carry their own bg-paper / bg-ink and cover the grid. */
+  body {
+    @apply text-ink font-sans leading-body antialiased;
+    background-color: theme('colors.paper');
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      theme('colors.mist') 1px,
+      transparent 0
+    );
+    background-size: 24px 24px;
+  }
+
+  html.dark body {
+    @apply text-paper;
+    background-color: theme('colors.ink');
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      theme('colors.graphite') 1px,
+      transparent 0
+    );
+  }
+
+  ::selection {
+    @apply bg-accent text-paper;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-paper;
+  }
+
+  html.dark *:focus-visible {
+    @apply ring-offset-ink;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-bold tracking-tight;
+  }
+
+  a {
+    @apply text-accent underline-offset-4 decoration-1 transition-colors;
+  }
+
+  a:hover {
+    @apply decoration-2;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono text-eyebrow uppercase tracking-eyebrow text-muted;
+  }
+
+  .prose-body {
+    @apply font-sans text-[16px] leading-body text-graphite;
+  }
+
+  html.dark .prose-body {
+    @apply text-mist;
+  }
+
+  .equation {
+    @apply font-mono text-accent;
+  }
+
+  .hairline {
+    @apply border-t border-mist;
+  }
+
+  html.dark .hairline {
+    @apply border-graphite;
+  }
+
+  .prose-post {
+    @apply font-sans text-[17px] leading-[1.7] text-graphite;
+  }
+
+  html.dark .prose-post {
+    @apply text-mist;
+  }
+
+  .prose-post h2 {
+    @apply mt-12 mb-4 text-2xl font-bold text-ink;
+  }
+
+  html.dark .prose-post h2 {
+    @apply text-paper;
+  }
+
+  .prose-post h3 {
+    @apply mt-8 mb-3 text-xl font-bold text-ink;
+  }
+
+  html.dark .prose-post h3 {
+    @apply text-paper;
+  }
+
+  .prose-post p {
+    @apply my-5;
+  }
+
+  .prose-post ul,
+  .prose-post ol {
+    @apply my-5 ml-6;
+  }
+
+  .prose-post ul {
+    @apply list-disc;
+  }
+
+  .prose-post ol {
+    @apply list-decimal;
+  }
+
+  .prose-post li {
+    @apply my-2;
+  }
+
+  .prose-post blockquote {
+    @apply my-6 border-l-4 border-accent pl-5 italic text-muted;
+  }
+
+  .prose-post code {
+    @apply font-mono text-[14px] bg-mist px-1.5 py-0.5 rounded text-ink;
+  }
+
+  html.dark .prose-post code {
+    @apply bg-graphite text-paper;
+  }
+
+  .prose-post pre {
+    @apply my-6 p-4 bg-ink text-paper rounded-md overflow-x-auto;
+  }
+
+  html.dark .prose-post pre {
+    @apply bg-graphite;
+  }
+
+  .prose-post pre code {
+    @apply bg-transparent p-0 text-paper;
+  }
+
+  .prose-post a {
+    @apply text-accent underline underline-offset-4;
+  }
+
+  /* Markdown `---` renders as an ε section break: a hairline with a
+     centered ε ornament sitting on top, masked by the page background.
+     A small, repeated nod to the brand mark in long-form content. */
+  .prose-post hr {
+    @apply relative my-12 h-px border-0 bg-mist;
+    overflow: visible;
+  }
+
+  .prose-post hr::after {
+    content: 'ε';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0 0.75rem;
+    background: theme('colors.paper');
+    color: theme('colors.accent');
+    font-family: theme('fontFamily.sans');
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1;
+  }
+
+  html.dark .prose-post hr {
+    @apply bg-graphite;
+  }
+
+  html.dark .prose-post hr::after {
+    background: theme('colors.ink');
+  }
+}

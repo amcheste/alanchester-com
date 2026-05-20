@@ -1,0 +1,24 @@
+---
+interface Props {
+  class?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  as?: 'span' | 'h1' | 'div';
+}
+
+const { class: className, size = 'md', as: Tag = 'span' } = Astro.props;
+
+const sizes: Record<NonNullable<Props['size']>, string> = {
+  sm: 'text-xl',
+  md: 'text-3xl',
+  lg: 'text-4xl md:text-5xl',
+  xl: 'text-5xl md:text-6xl',
+};
+---
+
+<Tag
+  class:list={[
+    'font-sans font-bold lowercase tracking-tight text-ink dark:text-paper',
+    sizes[size],
+    className,
+  ]}
+>alan chester.</Tag>

@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import Equation from '../components/Equation.astro';
+---
+
+<Base title="404" description="This page doesn't exist." noindex>
+  <main class="flex min-h-screen flex-col items-center justify-center bg-ink px-6 text-center text-paper">
+    <div class="text-4xl md:text-6xl">
+      <Equation size="lg" />
+    </div>
+    <p class="mt-8 font-mono text-sm uppercase tracking-eyebrow text-muted">
+      This page doesn&rsquo;t exist.
+    </p>
+    <a
+      href="/"
+      class="mt-10 font-mono text-sm text-accent no-underline hover:underline"
+    >← back to home</a>
+  </main>
+</Base>

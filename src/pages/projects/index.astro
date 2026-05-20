@@ -1,0 +1,52 @@
+---
+import Page from '../../layouts/Page.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projects, categoryOrder } from '../../data/projects';
+
+// Group projects under their category, in the GitHub README order. A
+// category section only renders if it has at least one project.
+const grouped = categoryOrder
+  .map((cat) => ({
+    ...cat,
+    items: projects.filter((p) => p.category === cat.id),
+  }))
+  .filter((group) => group.items.length > 0);
+---
+
+<Page
+  title="Projects"
+  description="Research, tooling, and experiments. Source on GitHub."
+>
+  <section class="mx-auto max-w-projects px-6 pt-16 pb-24">
+    <header class="max-w-prose">
+      <p class="eyebrow">Projects</p>
+      <h1 class="mt-3 text-4xl font-bold text-ink md:text-5xl dark:text-paper">
+        What I&rsquo;m Building
+      </h1>
+      <p class="mt-4 text-lg text-graphite dark:text-mist">
+        Research code, tooling, and applied experiments. All open source.
+      </p>
+    </header>
+
+    <div class="mt-16 space-y-16">
+      {grouped.map((group) => (
+        <section>
+          <h2 class="font-sans text-lg font-bold text-ink dark:text-paper">
+            {group.label}
+          </h2>
+          <div class="mt-5 grid gap-6 md:grid-cols-2">
+            {group.items.map((p) => (
+              <ProjectCard
+                name={p.name}
+                href={p.href}
+                stack={p.stack}
+                status={p.status}
+                description={p.description}
+              />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
+</Page>

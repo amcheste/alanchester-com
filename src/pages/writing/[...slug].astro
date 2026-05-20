@@ -1,0 +1,41 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Post from '../../layouts/Post.astro';
+import { readingTime } from '../../utils/readingTime';
+import type { WritingType } from '../../utils/writing';
+
+export async function getStaticPaths() {
+  const [essays, papers] = await Promise.all([
+    getCollection('blog', ({ data }) => !data.draft),
+    getCollection('papers', ({ data }) => !data.draft),
+  ]);
+  // Type is derived from the collection, not from frontmatter.
+  return [
+    ...essays.map((entry) => ({
+      params: { slug: entry.slug },
+      props: { entry, type: 'essay' as const },
+    })),
+    ...papers.map((entry) => ({
+      params: { slug: entry.slug },
+      props: { entry, type: 'paper' as const },
+    })),
+  ];
+}
+
+type Entry = CollectionEntry<'blog'> | CollectionEntry<'papers'>;
+interface Props { entry: Entry; type: WritingType }
+
+const { entry, type } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<Post
+  title={entry.data.title}
+  subtitle={entry.data.subtitle}
+  description={entry.data.description}
+  date={entry.data.date}
+  type={type}
+  readingTime={readingTime(entry.body)}
+>
+  <Content />
+</Post>

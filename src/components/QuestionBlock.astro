@@ -1,0 +1,23 @@
+---
+interface Props {
+  topic: string;
+  question: string;
+  method: string;
+  class?: string;
+}
+
+const { topic, question, method, class: className } = Astro.props;
+---
+
+<article
+  class:list={[
+    'border-t border-mist py-7 first:border-t-0 first:pt-0 dark:border-graphite',
+    className,
+  ]}
+>
+  <p class="font-mono text-sm font-bold text-ink dark:text-paper">{topic}.</p>
+  <p class="mt-2 text-lg leading-snug text-graphite dark:text-mist">
+    {question}
+  </p>
+  <p class="mt-1 font-mono text-sm text-muted">{method}</p>
+</article>

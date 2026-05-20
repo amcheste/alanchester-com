@@ -1,0 +1,72 @@
+---
+import Page from '../../layouts/Page.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getWriting } from '../../utils/writing';
+
+const filter = (Astro.url.searchParams.get('type') ?? 'all').toLowerCase();
+const validFilters = ['all', 'essays', 'papers'] as const;
+const active = (validFilters as readonly string[]).includes(filter) ? filter : 'all';
+
+const writing = await getWriting();
+
+const filtered = writing.filter((item) => {
+  if (active === 'essays') return item.type === 'essay';
+  if (active === 'papers') return item.type === 'paper';
+  return true;
+});
+
+const filterLinks = [
+  { value: 'all', label: 'All' },
+  { value: 'essays', label: 'Essays' },
+  { value: 'papers', label: 'Papers' },
+] as const;
+---
+
+<Page
+  title="Writing"
+  description="Research notes, technical essays, and white papers on reinforcement learning, agentic systems, multi-agent trust, and the math underneath."
+>
+  <section class="mx-auto max-w-writing px-6 pt-16 pb-24">
+    <header>
+      <p class="eyebrow">Writing</p>
+      <h1 class="mt-3 text-4xl font-bold text-ink md:text-5xl dark:text-paper">
+        Essays &amp; Papers
+      </h1>
+      <p class="mt-4 max-w-prose text-lg text-graphite dark:text-mist">
+        Research notes, technical essays, and white papers. On reinforcement
+        learning, agentic systems, multi-agent trust, and the math
+        underneath.
+      </p>
+    </header>
+
+    <nav class="mt-10 flex gap-6 border-b border-mist pb-4 dark:border-graphite" aria-label="Filter writing">
+      {filterLinks.map(({ value, label }) => (
+        <a
+          href={value === 'all' ? '/writing' : `/writing?type=${value}`}
+          class:list={[
+            'font-mono text-sm no-underline transition-colors',
+            active === value
+              ? 'text-ink underline decoration-accent decoration-2 underline-offset-[6px] dark:text-paper'
+              : 'text-muted hover:text-accent',
+          ]}
+        >{label}</a>
+      ))}
+    </nav>
+
+    <div class="mt-8">
+      {filtered.length === 0 && (
+        <p class="font-mono text-sm text-muted">No posts in this category yet.</p>
+      )}
+      {filtered.map((item) => (
+        <PostCard
+          href={`/writing/${item.slug}`}
+          title={item.title}
+          description={item.description}
+          date={item.date}
+          type={item.type}
+          readingTime={item.readingTime}
+        />
+      ))}
+    </div>
+  </section>
+</Page>
