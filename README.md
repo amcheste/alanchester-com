@@ -34,10 +34,85 @@ Click the sun/moon icon in the nav. The choice persists in `localStorage`
 under the key `ac-theme`. To reset to the system default, open DevTools →
 Application → Local Storage and delete that key.
 
-To preview light mode while your OS is in dark mode (or vice versa),
-open DevTools → Rendering → Emulate CSS media feature `prefers-color-scheme`.
-This is useful because the home hero is always dark by design, regardless
-of theme.
+To preview what the site looks like for a user whose OS preference
+differs from yours, open DevTools → Rendering → Emulate CSS media
+feature `prefers-color-scheme`. Useful for verifying both themes
+without manually toggling.
+
+---
+
+## Previewing the site
+
+Several ways to look at the site before publishing, ordered from
+"just me, locally" to "share with everyone."
+
+### 1. Local production preview
+
+The closest local equivalent of what ships. Different from `npm run dev`
+in that it serves the actual contents of `./dist`.
+
+```bash
+npm run build && npm run preview
+```
+
+Opens at [http://localhost:4321](http://localhost:4321). Real bundled
+CSS/JS, real `<head>` meta tags, real `og:image`, no hot reload.
+Catches things `dev` misses: missing assets, broken `getStaticPaths`,
+content-collection validation, MDX errors.
+
+### 2. One-off shareable URL (no setup)
+
+For "send a link to one person" without committing to a full Netlify
+project: drop the built `dist/` folder onto [Netlify Drop](https://app.netlify.com/drop)
+and get a URL like `https://random-name-abc123.netlify.app` valid for
+24 hours.
+
+```bash
+npm run build
+open https://app.netlify.com/drop  # then drag the dist folder
+```
+
+### 3. Netlify CLI deploys (repeatable drafts)
+
+For previewing several variants side by side without connecting GitHub:
+
+```bash
+npm install -g netlify-cli
+netlify login                           # one-time browser auth
+netlify deploy --dir=dist               # draft URL
+netlify deploy --dir=dist --prod        # promote to the production URL
+```
+
+Each `netlify deploy` returns a fresh draft URL like
+`https://6735abc--alanchester-com.netlify.app`.
+
+### 4. Full Netlify + GitHub integration (the production setup)
+
+What makes deploy previews automatic. Once connected:
+
+- **Every PR** → unique URL posted as a comment on the PR
+  (`deploy-preview-<n>--alanchester-com.netlify.app`).
+- **Every push to `develop`** → staging URL
+  (`alanchester-com.netlify.app`).
+- **Every push to `main`** → production. Point `alanchester.com` at
+  this once the custom domain is ready.
+
+One-time setup (≈3 minutes):
+
+1. Go to [app.netlify.com/start](https://app.netlify.com/start).
+2. Pick "Import an existing project" → "Deploy with GitHub".
+3. Authorize the Netlify GitHub app for `amcheste/alanchester-com`.
+4. Confirm the build settings. Netlify reads `netlify.toml` and
+   pre-fills these — no edits needed:
+   - Branch to deploy: `main`
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+5. Deploy.
+6. In **Site settings → Build & deploy → Deploy contexts**, confirm
+   "Deploy previews" is enabled for **all pull requests** and
+   "Branch deploys" includes **`develop`**.
+
+After step 6, every PR comment carries its own preview URL.
 
 ---
 
