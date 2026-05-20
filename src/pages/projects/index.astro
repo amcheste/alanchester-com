@@ -1,7 +1,16 @@
 ---
 import Page from '../../layouts/Page.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
-import { projects } from '../../data/projects';
+import { projects, categoryOrder } from '../../data/projects';
+
+// Group projects under their category, in the GitHub README order. A
+// category section only renders if it has at least one project.
+const grouped = categoryOrder
+  .map((cat) => ({
+    ...cat,
+    items: projects.filter((p) => p.category === cat.id),
+  }))
+  .filter((group) => group.items.length > 0);
 ---
 
 <Page
@@ -19,16 +28,24 @@ import { projects } from '../../data/projects';
       </p>
     </header>
 
-    <div class="mt-12 grid gap-6 md:grid-cols-2">
-      {projects.map((p) => (
-        <ProjectCard
-          name={p.name}
-          href={p.href}
-          stack={p.stack}
-          category={p.category}
-          status={p.status}
-          description={p.description}
-        />
+    <div class="mt-16 space-y-16">
+      {grouped.map((group) => (
+        <section>
+          <h2 class="font-sans text-lg font-bold text-ink dark:text-paper">
+            {group.label}
+          </h2>
+          <div class="mt-5 grid gap-6 md:grid-cols-2">
+            {group.items.map((p) => (
+              <ProjectCard
+                name={p.name}
+                href={p.href}
+                stack={p.stack}
+                status={p.status}
+                description={p.description}
+              />
+            ))}
+          </div>
+        </section>
       ))}
     </div>
   </section>

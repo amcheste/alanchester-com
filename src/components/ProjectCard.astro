@@ -1,21 +1,20 @@
 ---
-import type { ProjectCategory, ProjectStatus } from '../data/projects';
+import type { ProjectStatus } from '../data/projects';
 
 interface Props {
   name: string;
   href: string;
   stack: string[];
-  category: ProjectCategory;
   status: ProjectStatus;
   description: string;
   class?: string;
 }
 
-const { name, href, stack, category, status, description, class: className } = Astro.props;
+const { name, href, stack, status, description, class: className } = Astro.props;
 
-// Status is the only field that earns the accent: green marks the projects
-// under active development. Everything else (category, experiment status,
-// the tech stack) stays muted.
+// Status is the only field on the card that earns the accent: green marks
+// the projects under active development. Category is conveyed by the
+// section heading on the projects page, not repeated here.
 const statusClass = status === 'active' ? 'text-accent' : 'text-muted';
 ---
 
@@ -32,10 +31,7 @@ const statusClass = status === 'active' ? 'text-accent' : 'text-muted';
       rel="noopener noreferrer"
       class="font-mono text-lg font-bold text-ink no-underline transition-colors group-hover:text-accent dark:text-paper"
     >{name}</a>
-    <div class="flex shrink-0 flex-col items-end gap-1 font-mono text-eyebrow tracking-eyebrow">
-      <span class={statusClass}>{status.toUpperCase()}</span>
-      <span class="text-muted">{category.toUpperCase()}</span>
-    </div>
+    <span class:list={['shrink-0 font-mono text-eyebrow tracking-eyebrow', statusClass]}>{status.toUpperCase()}</span>
   </header>
 
   <div class="mt-2 flex flex-wrap gap-x-3 font-mono text-xs text-muted">

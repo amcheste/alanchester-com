@@ -1,12 +1,15 @@
 // Two orthogonal axes, kept as two fields so neither is overloaded:
 //
-//   category — what kind of project it is. Stable classification.
+//   category — what the project is about. Mirrors the groupings on the
+//              GitHub profile README's "What I build" section.
 //   status   — how active / mature it is. Changes over a project's life.
-//
-// A project is exactly one category and exactly one status, e.g. a
-// `research` project that is `active`, or an `application` that is an
-// `experiment`.
-export type ProjectCategory = 'research' | 'tooling' | 'application';
+export type ProjectCategory =
+  | 'reinforcement-learning'
+  | 'agentic-systems'
+  | 'research-tooling'
+  | 'applied-experiments'
+  | 'identity-tooling';
+
 export type ProjectStatus = 'active' | 'experiment';
 
 export interface Project {
@@ -19,64 +22,94 @@ export interface Project {
   featured: boolean;
 }
 
+// Display order + labels for the grouped projects page. Order matches the
+// GitHub profile README.
+export const categoryOrder: { id: ProjectCategory; label: string }[] = [
+  { id: 'reinforcement-learning', label: 'Reinforcement learning' },
+  { id: 'agentic-systems', label: 'Agentic systems' },
+  { id: 'research-tooling', label: 'Research tooling' },
+  { id: 'applied-experiments', label: 'Applied experiments' },
+  { id: 'identity-tooling', label: 'Identity and tooling' },
+];
+
 export const projects: Project[] = [
   {
     name: 'pokemon-red-ai',
     stack: ['Python', 'RL', 'Gymnasium'],
-    category: 'research',
+    category: 'reinforcement-learning',
     status: 'active',
     description:
-      'Reinforcement learning toolkit for training AI agents to play Pokémon Red. Built on PyBoy, Stable-Baselines3, and Gymnasium. Three observation treatments (pixel, symbolic, hybrid), 833 tests, statistical analysis following Agarwal et al. 2021.',
+      'Reinforcement learning research on observation representations in Pokémon Red. Pixel, symbolic, and hybrid conditions under capacity-matched encoders. RecurrentPPO via SB3-Contrib.',
     href: 'https://github.com/amcheste/pokemon-red-ai',
     featured: true,
   },
   {
     name: 'claude-teams-operator',
     stack: ['Kubernetes', 'Go', 'AI'],
-    category: 'research',
+    category: 'agentic-systems',
     status: 'active',
     description:
-      'Kubernetes operator that runs Claude Code Agent Teams as distributed pods. Explores multi-agent coordination patterns at the infrastructure layer.',
+      'Kubernetes operator that runs Claude Code agent teams as distributed pods.',
     href: 'https://github.com/amcheste/claude-teams-operator',
     featured: true,
   },
   {
     name: 'ea-agent',
     stack: ['Python', 'AI', 'Obsidian'],
-    category: 'application',
+    category: 'agentic-systems',
     status: 'active',
     description:
-      'AI-powered personal executive assistant built around Obsidian. Automates triage, synthesis, and knowledge management workflows.',
+      'AI personal executive assistant built around Obsidian.',
     href: 'https://github.com/amcheste/ea-agent',
     featured: true,
   },
   {
-    name: 'paper-skills',
-    stack: ['Python', 'AI', 'Research'],
-    category: 'tooling',
-    status: 'experiment',
+    name: 'overleaf-mcp',
+    stack: ['Python', 'MCP', 'LaTeX'],
+    category: 'research-tooling',
+    status: 'active',
     description:
-      'Claude Code skills for academic paper triage and Obsidian integration. Reduces time-to-insight on dense technical literature.',
-    href: 'https://github.com/amcheste/paper-skills',
+      'MCP server for editing Overleaf LaTeX projects from Claude. Published to PyPI. Single-user by design, auditable, built for academic researchers.',
+    href: 'https://github.com/amcheste/overleaf-mcp',
     featured: false,
   },
   {
     name: 'golf-coach-agent',
     stack: ['Python', 'Vision LLM'],
-    category: 'application',
+    category: 'applied-experiments',
     status: 'experiment',
     description:
-      'AI golf coach using Vision LLMs for swing analysis. A focused experiment in applying multimodal models to physical performance feedback.',
+      'Vision LLM applied to golf swing analysis.',
     href: 'https://github.com/amcheste/golf-coach-agent',
+    featured: false,
+  },
+  {
+    name: 'alanchester-brand',
+    stack: ['Design', 'CSS', 'Tokens'],
+    category: 'identity-tooling',
+    status: 'active',
+    description:
+      'Personal brand system, expressed as code. Tokens, components, the equation as identity.',
+    href: 'https://github.com/amcheste/alanchester-brand',
+    featured: false,
+  },
+  {
+    name: 'engineering-handbook',
+    stack: ['Markdown', 'Docs'],
+    category: 'identity-tooling',
+    status: 'active',
+    description:
+      'Personal engineering handbook. Philosophies, workflows, and tooling for how I build software. Versioned with semver.',
+    href: 'https://github.com/amcheste/engineering-handbook',
     featured: false,
   },
   {
     name: 'mac-dev-setup',
     stack: ['Shell', 'macOS'],
-    category: 'tooling',
+    category: 'identity-tooling',
     status: 'active',
     description:
-      'One command to go from zero to fully productive on macOS. Opinionated dotfiles and toolchain setup for engineers who care about their environment.',
+      'One command from zero to productive on macOS.',
     href: 'https://github.com/amcheste/mac-dev-setup',
     featured: false,
   },
