@@ -12,3 +12,13 @@ empty `Unreleased` section is inserted above it. The
 the same shape works for manual releases.
 
 ## [Unreleased]
+
+## [0.2.0] - 2026-06-05
+
+### Added
+- Initial alanchester.com site: Astro 4.x + Tailwind static build with light/dark theming and the AεC brand identity (monogram, wordmark, ε/δ equation, dot-grid notebook texture).
+- About page with Research Focus, Current Questions, Currently, Background, Philosophy, and Connect sections; color headshot in the Background section.
+- Writing section backed by two content collections (`blog` for essays, `papers` for papers) with a shared layout and reading-time helper.
+- Projects gallery grouped by five categories: reinforcement-learning, agentic-systems, research-tooling, applied-experiments, identity-tooling.
+- Footer with site nav and contact links (email, LinkedIn, GitHub, X).
+- Release pipeline (`release.yml`) triggered by `v*.*.*` tags, plus monthly dependency release workflow, SAST, scorecard, labeler, and stale workflows.
