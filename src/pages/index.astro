@@ -1,0 +1,120 @@
+---
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Wordmark from '../components/Wordmark.astro';
+import Equation from '../components/Equation.astro';
+import PostCard from '../components/PostCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import QuestionBlock from '../components/QuestionBlock.astro';
+import { projects } from '../data/projects';
+import { researchQuestions } from '../data/questions';
+import { getWriting } from '../utils/writing';
+
+const allWriting = (await getWriting()).slice(0, 3);
+
+const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
+---
+
+<Base
+  title={undefined}
+  description="Alan Chester · researcher, scholar, engineer. Notes from the bench on reinforcement learning, agentic systems, and multi-agent trust."
+>
+  <Nav />
+  <main class="flex-1">
+    <section class="relative w-full">
+      <div class="absolute inset-y-0 left-0 w-1 bg-accent" aria-hidden="true"></div>
+      <div class="mx-auto max-w-prose px-8 py-24 md:py-32">
+        <Wordmark as="h1" size="xl" />
+        <div class="mt-6">
+          <Equation size="lg" />
+        </div>
+        <p class="mt-8 font-mono text-sm text-muted">
+          researcher. scholar. engineer.
+        </p>
+        <p class="mt-2 font-mono text-sm text-muted">
+          notes from the bench.
+        </p>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-prose px-6 py-20">
+      <p class="eyebrow">About</p>
+      <div class="mt-4 space-y-4 text-lg text-graphite dark:text-mist">
+        <p>
+          I work at the intersection of cloud infrastructure, agentic AI
+          systems, reinforcement learning, and multi-agent trust. Fifteen
+          years building production systems. Now turning that engineering
+          lens onto the research bench.
+        </p>
+        <p>
+          The current empirical work: in long-horizon reinforcement learning,
+          do symbolic observations beat pixel observations once encoder
+          capacity is properly controlled? Pokémon Red is the environment,
+          RecurrentPPO via SB3-Contrib the method.
+        </p>
+      </div>
+      <a
+        href="/about"
+        class="mt-6 inline-block font-mono text-sm text-accent no-underline hover:underline"
+      >More about me →</a>
+    </section>
+
+    <section class="mx-auto max-w-prose px-6 py-12">
+      <p class="eyebrow">Research</p>
+      <p class="mt-3 text-sm text-muted font-mono">the current questions</p>
+      <div class="mt-8">
+        {researchQuestions.map((q) => (
+          <QuestionBlock topic={q.topic} question={q.question} method={q.method} />
+        ))}
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-prose px-6 py-12">
+      <div class="flex items-baseline justify-between">
+        <p class="eyebrow">Writing</p>
+        <a href="/writing" class="font-mono text-xs text-accent no-underline hover:underline">
+          All writing →
+        </a>
+      </div>
+      <div class="mt-6">
+        {allWriting.length === 0 && (
+          <p class="font-mono text-sm text-muted">No posts yet.</p>
+        )}
+        {allWriting.map((item) => (
+          <PostCard
+            href={`/writing/${item.slug}`}
+            title={item.title}
+            description={item.description}
+            date={item.date}
+            type={item.type}
+            readingTime={item.readingTime}
+          />
+        ))}
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-projects px-6 py-12">
+      <div class="mx-auto max-w-prose">
+        <div class="flex items-baseline justify-between">
+          <p class="eyebrow">Projects</p>
+          <a href="/projects" class="font-mono text-xs text-accent no-underline hover:underline">
+            All projects →
+          </a>
+        </div>
+      </div>
+      <div class="mx-auto mt-6 grid gap-6 md:grid-cols-3">
+        {featuredProjects.map((p) => (
+          <ProjectCard
+            name={p.name}
+            href={p.href}
+            stack={p.stack}
+            status={p.status}
+            description={p.description}
+          />
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>

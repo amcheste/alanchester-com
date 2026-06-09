@@ -6,7 +6,27 @@ This file is read by Claude Code at the start of every session in this repo.
 
 ## About This Repo
 
-<!-- TODO: describe what this project does -->
+[alanchester.com](https://alanchester.com) — Alan Chester's personal site. A
+static Astro + Tailwind site that frames the personal brand around the
+`∀ ε > 0, ∃ δ > 0` philosophy. Houses essays, white papers, and a project
+gallery. No consulting signals, no employer references, no career-transition
+framing. Voice: compressed, precise, calibrated. No em dashes in copy.
+
+**Stack.** Astro 4.x (SSG), Tailwind CSS (custom theme, no plugins),
+content collections for `blog` and `papers`, IBM Plex Sans + Mono via
+`@fontsource`. Deploys to Netlify (config in `netlify.toml`).
+
+**Working in this repo.**
+- `npm run dev` for the local server (port 4321)
+- `npm run build` for the production build
+- `npx astro check` for the type checker
+- Add a new post: drop a `.md` (or `.mdx`) into `src/content/blog/` (essay)
+  or `src/content/papers/` (paper). Filename becomes the URL slug.
+- Brand tokens live in `tailwind.config.mjs`. Never hand-roll hex values
+  in components — use the named colors (`ink`, `paper`, `accent`, etc.).
+- IBM Plex Mono ships no Greek subset, so `ε` / `δ` glyphs in the
+  Monogram and Equation render in IBM Plex Sans (loaded via the
+  `greek-*.css` font subsets). Don't "fix" this back to mono.
 
 ---
 

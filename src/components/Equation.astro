@@ -1,0 +1,23 @@
+---
+interface Props {
+  class?: string;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { class: className, size = 'md' } = Astro.props;
+
+const sizes: Record<NonNullable<Props['size']>, string> = {
+  sm: 'text-xs',
+  md: 'text-base',
+  lg: 'text-xl md:text-2xl',
+};
+---
+
+<span
+  class:list={[
+    'font-mono text-accent whitespace-nowrap',
+    sizes[size],
+    className,
+  ]}
+  aria-label="For all epsilon greater than zero, there exists a delta greater than zero"
+>∀ <span class="font-sans">ε</span> &gt; 0, ∃ <span class="font-sans">δ</span> &gt; 0</span>

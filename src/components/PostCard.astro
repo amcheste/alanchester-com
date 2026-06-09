@@ -1,0 +1,47 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  date: Date;
+  type: 'essay' | 'paper';
+  readingTime?: string;
+  class?: string;
+}
+
+const { href, title, description, date, type, readingTime, class: className } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+});
+
+const typeLabel = type === 'paper' ? 'PAPER' : 'ESSAY';
+---
+
+<article
+  class:list={[
+    'group block border-t border-mist py-6 first:border-t-0 dark:border-graphite',
+    className,
+  ]}
+>
+  <a href={href} class="block no-underline">
+    <div class="flex items-center gap-3 font-mono text-xs">
+      <span class="text-accent">{typeLabel}</span>
+      <span class="text-muted" aria-hidden="true">·</span>
+      <time datetime={date.toISOString()} class="text-muted">{formattedDate}</time>
+      {readingTime && (
+        <>
+          <span class="text-muted" aria-hidden="true">·</span>
+          <span class="text-muted">{readingTime}</span>
+        </>
+      )}
+    </div>
+
+    <h3 class="mt-2 text-2xl font-bold text-ink transition-colors group-hover:text-accent dark:text-paper">
+      {title}
+    </h3>
+
+    <p class="mt-2 max-w-prose text-graphite dark:text-mist">{description}</p>
+  </a>
+</article>

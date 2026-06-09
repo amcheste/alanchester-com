@@ -23,7 +23,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
         with:
           ref: develop
           fetch-depth: 0
@@ -71,29 +71,34 @@ jobs:
             echo "pr_exists=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Setup Node
+        if: steps.check.outputs.has_updates == 'true' && steps.existing.outputs.pr_exists == 'false'
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
       - name: Bump patch version
         id: bump
         if: steps.check.outputs.has_updates == 'true' && steps.existing.outputs.pr_exists == 'false'
         run: |
-          if [[ ! -f VERSION ]]; then
-            echo "ERROR: VERSION file not found — cannot bump version" >&2
+          if [[ ! -f package.json ]]; then
+            echo "ERROR: package.json not found. This workflow expects an npm project." >&2
             exit 1
           fi
 
-          CURRENT=$(tr -d '[:space:]' < VERSION)
-          BASE="${CURRENT%%-*}"  # strip any pre-release suffix
+          CURRENT=$(node -p "require('./package.json').version")
 
-          if [[ ! "$BASE" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
-            echo "ERROR: Invalid semver in VERSION: '$CURRENT'" >&2
+          if [[ ! "$CURRENT" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.+-]+)?$ ]]; then
+            echo "ERROR: Invalid semver in package.json: '$CURRENT'" >&2
             exit 1
           fi
 
-          MAJOR="${BASH_REMATCH[1]}"
-          MINOR="${BASH_REMATCH[2]}"
-          PATCH="${BASH_REMATCH[3]}"
-          NEW_VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))"
+          # `npm version patch --no-git-tag-version` rewrites the version field
+          # in package.json (and package-lock.json) without creating a commit
+          # or tag, so we control the commit / push ourselves below.
+          # Output of `npm version` is the new version prefixed with 'v'.
+          NEW_VERSION=$(npm version patch --no-git-tag-version | tr -d 'v')
 
-          echo "$NEW_VERSION" > VERSION
           echo "Bumped $CURRENT → $NEW_VERSION"
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
           echo "current_version=$CURRENT" >> "$GITHUB_OUTPUT"
@@ -127,7 +132,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git checkout -b "$BRANCH"
-          git add VERSION
+          git add package.json
+          [[ -f package-lock.json ]] && git add package-lock.json
           [[ -f CHANGELOG.md ]] && git add CHANGELOG.md
           git commit -m "chore: release v${NEW_VERSION}"
           git push origin "$BRANCH"

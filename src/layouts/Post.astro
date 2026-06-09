@@ -1,0 +1,64 @@
+---
+import Page from './Page.astro';
+import Equation from '../components/Equation.astro';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  description: string;
+  date: Date;
+  type: 'essay' | 'paper';
+  readingTime?: string;
+}
+
+const { title, subtitle, description, date, type, readingTime } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const typeLabel = type === 'paper' ? 'PAPER' : 'ESSAY';
+---
+
+<Page title={title} description={description}>
+  <article class="mx-auto max-w-prose px-6 pt-16 pb-24">
+    <header class="mb-12 border-b border-mist pb-10 dark:border-graphite">
+      <div class="flex items-center gap-3 font-mono text-xs">
+        <span class="text-accent">{typeLabel}</span>
+        <span class="text-muted" aria-hidden="true">·</span>
+        <time datetime={date.toISOString()} class="text-muted">{formattedDate}</time>
+        {readingTime && (
+          <>
+            <span class="text-muted" aria-hidden="true">·</span>
+            <span class="text-muted">{readingTime}</span>
+          </>
+        )}
+      </div>
+
+      <h1 class="mt-4 text-4xl font-bold leading-tight text-ink md:text-5xl dark:text-paper">
+        {title}
+      </h1>
+
+      {subtitle && (
+        <p class="mt-4 text-lg text-graphite dark:text-mist">{subtitle}</p>
+      )}
+    </header>
+
+    <div class="prose-post">
+      <slot />
+    </div>
+
+    <div class="mt-12 text-center" aria-hidden="true">
+      <span class="font-sans text-2xl font-bold leading-none text-accent">δ</span>
+    </div>
+
+    <footer class="mt-10 border-t border-mist pt-8 dark:border-graphite">
+      <div class="flex items-center justify-between font-mono text-xs text-muted">
+        <Equation size="sm" />
+        <a href="/writing" class="no-underline hover:text-accent">← all writing</a>
+      </div>
+    </footer>
+  </article>
+</Page>

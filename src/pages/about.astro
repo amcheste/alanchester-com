@@ -1,0 +1,140 @@
+---
+import Page from '../layouts/Page.astro';
+import Monogram from '../components/Monogram.astro';
+import Wordmark from '../components/Wordmark.astro';
+import Equation from '../components/Equation.astro';
+import QuestionBlock from '../components/QuestionBlock.astro';
+import { researchQuestions } from '../data/questions';
+import { Image } from 'astro:assets';
+import headshot from '../assets/headshot.png';
+---
+
+<Page
+  title="About"
+  description="Alan Chester · researcher, scholar, engineer. Studying observation representations in long-horizon RL, agentic system design, and multi-agent trust."
+>
+  <article class="mx-auto max-w-prose px-6 pt-16 pb-24">
+    <header class="flex flex-col items-start gap-4">
+      <Monogram size="lg" />
+      <Wordmark as="h1" size="lg" />
+      <Equation size="md" />
+    </header>
+
+    <section class="mt-12">
+      <p class="eyebrow">Research focus</p>
+      <div class="mt-5 space-y-5 text-lg leading-[1.7] text-graphite dark:text-mist">
+        <p>
+          I work at the intersection of cloud infrastructure, agentic AI
+          systems, reinforcement learning, and multi-agent trust. The site you
+          are reading is where the research and technical work lives. Notes
+          from the bench.
+        </p>
+        <p>
+          The active empirical work: in long-horizon reinforcement learning,
+          do symbolic observations beat pixel observations once encoder
+          capacity is properly controlled? Pokémon Red is the environment,
+          RecurrentPPO via SB3-Contrib the method.
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-16 border-t border-mist pt-10 dark:border-graphite">
+      <p class="eyebrow">Current questions</p>
+      <div class="mt-8">
+        {researchQuestions.map((q) => (
+          <QuestionBlock topic={q.topic} question={q.question} method={q.method} />
+        ))}
+      </div>
+    </section>
+
+    <section class="mt-16 border-t border-mist pt-10 dark:border-graphite">
+      <p class="eyebrow">Currently</p>
+      <ul class="mt-5 space-y-3 text-graphite dark:text-mist">
+        <li class="flex items-start gap-3">
+          <span class="mt-0.5 inline-block w-4 shrink-0 font-sans text-base font-bold leading-none text-accent" aria-hidden="true">ε</span>
+          <span>Studying observation representations in long-horizon RL. Pixel vs. symbolic vs. hybrid, under capacity-matched encoders.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-0.5 inline-block w-4 shrink-0 font-sans text-base font-bold leading-none text-accent" aria-hidden="true">ε</span>
+          <span>Researching team architectures and trust topology for human-AI systems.</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="mt-0.5 inline-block w-4 shrink-0 font-sans text-base font-bold leading-none text-accent" aria-hidden="true">ε</span>
+          <span>MBA candidate, NC State Jenkins Graduate School of Management.</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-16 border-t border-mist pt-10 dark:border-graphite">
+      <p class="eyebrow">Background</p>
+      <Image
+        src={headshot}
+        alt="Alan Chester"
+        width={256}
+        height={256}
+        class="mt-5 h-28 w-28 rounded-sm"
+      />
+      <div class="mt-5 space-y-5 text-graphite dark:text-mist">
+        <p>
+          About fifteen years across kernel engineering, Kubernetes platform
+          development, cloud security, and product leadership.
+        </p>
+        <p>
+          Dual <span class="font-mono">B.S.</span> in Computer Science and
+          Applied Mathematics, NC State. CS gave me the discipline to ship
+          systems that run in production. Applied Math gave me the internals
+          of the models the rest of the field is now using. Security taught
+          me to see the risk others miss. The MBA in progress is the habit of
+          proving ROI rather than asserting it.
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-16 border-t border-mist pt-10 dark:border-graphite">
+      <p class="eyebrow">Philosophy</p>
+      <div class="mt-5 text-lg leading-[1.7] text-graphite dark:text-mist">
+        <p>
+          The brand is borrowed from real analysis. <span class="equation">ε</span> is
+          whatever the world demands. Uptime, accuracy, security, ROI.
+          <span class="equation">δ</span> is the move that meets it. Data points
+          the gradient.
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-16 border-t border-mist pt-10 dark:border-graphite">
+      <p class="eyebrow">Connect</p>
+      <ul class="mt-5 space-y-2 font-mono text-sm">
+        <li>
+          <a href="mailto:amcheste@gmail.com" class="text-muted no-underline hover:text-accent">
+            amcheste@gmail.com
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.linkedin.com/in/alan-chester-8757b98b/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-muted no-underline hover:text-accent"
+          >linkedin.com/in/alan-chester-8757b98b</a>
+        </li>
+        <li>
+          <a
+            href="https://github.com/amcheste"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-muted no-underline hover:text-accent"
+          >github.com/amcheste</a>
+        </li>
+        <li>
+          <a
+            href="https://x.com/amcheste"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-muted no-underline hover:text-accent"
+          >x: @amcheste</a>
+        </li>
+      </ul>
+    </section>
+  </article>
+</Page>

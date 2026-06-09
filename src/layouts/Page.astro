@@ -1,0 +1,22 @@
+---
+import Base from './Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const { title, description, ogImage, noindex } = Astro.props;
+---
+
+<Base title={title} description={description} ogImage={ogImage} noindex={noindex}>
+  <Nav />
+  <main class="flex-1">
+    <slot />
+  </main>
+  <Footer />
+</Base>
