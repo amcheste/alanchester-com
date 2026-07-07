@@ -72,6 +72,15 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Offline check of internal links and asset references in the built
+      # site. External URLs are skipped so flaky third-party sites can't
+      # break CI.
+      - name: Check internal links
+        uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411 # v2.8.0
+        with:
+          args: --offline --root-dir "${{ github.workspace }}/dist" --include-fragments "dist"
+          fail: true
+
   # ── Commit Lint (PRs only) ──────────────────────────────────────────────────
   commit-lint:
     name: Commit Lint
@@ -149,5 +158,5 @@ jobs:
                 ;;
             esac
             echo ""
-            echo "Tag the next release with: \`./scripts/bump-version.sh $BUMP\`"
+            echo "Use the \`$BUMP\` bump when publishing the next release (\`/publish-release\`)."
           } | tee -a "$GITHUB_STEP_SUMMARY"
