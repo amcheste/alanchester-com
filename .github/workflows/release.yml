@@ -45,6 +45,5 @@ jobs:
         with:
           prerelease: ${{ steps.prerelease.outputs.is_prerelease == 'true' }}
           generate_release_notes: true
-          # TODO: customise the release body for your project
           body: |
             See [CHANGELOG](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
