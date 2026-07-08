@@ -14,3 +14,25 @@ updates:
       - dependencies
     commit-message:
       prefix: chore
+
+  # ── npm ───────────────────────────────────────────────────────────────────
+  # Site dependencies (Astro, Tailwind, fonts). Minor and patch updates are
+  # grouped into a single weekly PR; major versions arrive as separate PRs
+  # so breaking upgrades (e.g. Astro 4 → 5) get reviewed on their own.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    target-branch: develop
+    labels:
+      - dependencies
+    commit-message:
+      prefix: chore
+    groups:
+      npm-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
